@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "#apis/*": ["./apis/*"],
+      "#assets/*": ["./assets/*"],
+      "#commons/*": ["./commons/*"],
+      "#components/*": ["./components/*"],
+      "#graphql/*": ["./graphql/*"],
+      "#hooks/*": ["./hooks/*"],
+      "#libs/*": ["./libs/*"],
+      "#pages/*": ["./pages/*"],
+      "#prisma/*": ["./prisma/*"],
+      "#queries/*": ["./queries/*"],
+      "#stores/*": ["./stores/*"],
+      "#styles/*": ["./styles/*"],
+      "#utils/*": ["./utils/*"]
+    }
+  }
+}

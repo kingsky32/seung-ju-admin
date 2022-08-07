@@ -1,0 +1,21 @@
+version: "3"
+services:
+  game:
+    build:
+      context: .
+      dockerfile: ./app.Dockerfile
+    ports:
+      - "3000:3000"
+  db:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: template
+      POSTGRES_PASSWORD: template
+      POSTGRES_DB: template
+  redis:
+    image: redis:alpine
+    command: redis-server --port 6379
