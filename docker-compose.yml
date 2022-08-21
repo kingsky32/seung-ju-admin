@@ -1,6 +1,6 @@
 version: "3"
 services:
-  game:
+  app:
     build:
       context: .
       dockerfile: ./app.Dockerfile

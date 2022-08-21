@@ -1,6 +1,6 @@
-export default {
+module.exports = {
   Query: {
-    getUser: (_, { id }, { prisma }) => {
+    user: (_, { id }, { prisma }) => {
       return prisma.user({ id });
     },
   },
