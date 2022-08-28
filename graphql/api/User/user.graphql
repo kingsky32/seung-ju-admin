@@ -1,3 +1,23 @@
-type Query {
-  user(id: ID!): User!
+scalar Date
+
+type User {
+  id: ID!
+  email: String
+  username: String!
+  name: String!
+  nickname: String!
+  bio: String
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type Me {
+  id: ID!
+  email: String
+  username: String!
+  name: String!
+  nickname: String!
+  bio: String
+  createdAt: Date!
+  updatedAt: Date!
 }

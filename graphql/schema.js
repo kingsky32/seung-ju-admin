@@ -1,22 +1,25 @@
-import url from 'url';
 import path from 'path';
-import { makeExecutableSchema } from '@graphql-tools/schema';
+import { loadFiles, loadFilesSync } from '@graphql-tools/load-files';
 import { mergeResolvers, mergeTypeDefs } from '@graphql-tools/merge';
-import { loadFilesSync } from '@graphql-tools/load-files';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 
-const typesArray = loadFilesSync(
-  path.join(process.cwd(), '/graphql/api/**/*.graphql'),
-);
-const resolversArray = loadFilesSync(
-  path.join(process.cwd(), '/graphql/api/**/*.resolver.js'),
-);
+export async function createSchema() {
+  const typesArray = loadFilesSync(
+    path.join(process.cwd(), '/graphql/api/**/*.graphql'),
+  );
+  const resolversArray = await loadFiles(
+    path.join(process.cwd(), '/graphql/api/**/*.resolver.js'),
+    {
+      requireMethod: (data) =>
+        import(`./${path.relative(`${process.cwd()}/graphql`, data)}`),
+    },
+  );
 
-const schema = makeExecutableSchema({
-  typeDefs: mergeTypeDefs(typesArray),
-  options: {
-    static: 'upload',
-  },
-  resolvers: mergeResolvers(resolversArray),
-});
-
-export default schema;
+  return makeExecutableSchema({
+    typeDefs: mergeTypeDefs(typesArray),
+    options: {
+      static: 'upload',
+    },
+    resolvers: mergeResolvers(resolversArray),
+  });
+}

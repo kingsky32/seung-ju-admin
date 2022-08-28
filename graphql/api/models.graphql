@@ -1,9 +1,0 @@
-scalar Date
-
-type User {
-  id: ID!
-  email: String
-  username: String!
-  createdAt: Date!
-  updatedAt: Date!
-}

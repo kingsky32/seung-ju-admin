@@ -1,0 +1,9 @@
+scalar Long
+
+type Login {
+  tokenType: String!
+  accessToken: String!
+  refreshToken: String!
+  accessTokenExpiredAt: Long!
+  refreshTokenExpiredAt: Long!
+}
