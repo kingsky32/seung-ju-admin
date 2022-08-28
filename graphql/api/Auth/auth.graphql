@@ -1,9 +1,14 @@
 scalar Long
 
-type Login {
+type JWT {
   tokenType: String!
   accessToken: String!
   refreshToken: String!
   accessTokenExpiredAt: Long!
   refreshTokenExpiredAt: Long!
+}
+
+type Login {
+  user: Me!
+  jwt: JWT!
 }

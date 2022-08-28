@@ -1,20 +1,22 @@
 import prisma from '#libs/prisma';
-import { ApolloError } from 'apollo-server-micro';
 import jwt from 'jsonwebtoken';
+import { getSession } from 'next-auth/react';
 
 export async function createContext({ req, res }) {
   const token = req.headers.authorization;
-  let user;
+  const obj = { prisma };
+  const session = await getSession({ req });
 
-  if (token) {
+  if (session) {
+    const { id } = session.user;
+    obj.user = await prisma.user.findUnique({ where: { id } });
+  } else if (token) {
     const { id } = jwt.verify(
       token.replace('Bearer ', ''),
       process.env.JWT_SECRET_KEY,
     );
-    user = await prisma.user.findUnique({ where: { id } });
+    obj.user = await prisma.user.findUnique({ where: { id } });
   }
-  return {
-    prisma,
-    user,
-  };
+
+  return obj;
 }
