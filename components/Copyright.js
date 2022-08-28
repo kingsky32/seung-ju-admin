@@ -10,12 +10,11 @@ export default function Copyright(props) {
       align="center"
       {...props}
     >
-      {'Copyright © '}
-      <Link color="inherit" href={process.env.NEXT_PUBLIC_APP_URL}>
+      Copyright ©
+      <Link color="inherit" href={`${process.env.NEXT_PUBLIC_APP_URL}/`}>
         {process.env.NEXT_PUBLIC_APP_NAME}
       </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      {new Date().getFullYear()}.
     </Typography>
   );
 }
