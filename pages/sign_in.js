@@ -7,6 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import NextLink from 'next/link';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -74,14 +75,14 @@ export default function SignInPage({ csrfToken, providers }) {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="/forgot_password" variant="body2">
-                Forgot password?
-              </Link>
+              <NextLink href="/forgot_password" passHref>
+                <Link variant="body2">Forgot password?</Link>
+              </NextLink>
             </Grid>
             <Grid item>
-              <Link href="/sign_up" variant="body2">
-                Don&apos;t have an account? Sign Up
-              </Link>
+              <NextLink href="/sign_up" passHref>
+                <Link variant="body2">Don&apos;t have an account? Sign Up</Link>
+              </NextLink>
             </Grid>
           </Grid>
         </Box>

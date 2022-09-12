@@ -4,16 +4,10 @@ import AdminLayout from '#components/layouts/AdminLayout';
 import { SessionProvider } from 'next-auth/react';
 import { useApollo } from '#graphql/apollo-client';
 import { ApolloProvider } from '@apollo/client';
-import NextLink from 'next/link';
-import Link from '@mui/material/Link';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-Link.defaultProps = {
-  component: NextLink,
-};
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();

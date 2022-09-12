@@ -2,6 +2,7 @@ import { EMAIL_REGEX, PASSWORD_REGEX } from '#commons/regex';
 import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import React from 'react';
+import NextLink from 'next/link';
 import Copyright from '#components/Copyright';
 import Avatar from '@mui/material/Avatar';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -220,9 +221,9 @@ export default function SignUp() {
           </LoadingButton>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/sign_in" variant="body2">
-                Already have an account? Sign in
-              </Link>
+              <NextLink href="/sign_in" passHref>
+                <Link variant="body2">Already have an account? Sign in</Link>
+              </NextLink>
             </Grid>
           </Grid>
         </Box>

@@ -1,11 +1,27 @@
+import NextLink from 'next/link';
+import Link from '@mui/material/Link';
+import React from 'react';
 import {
+  Notifications,
   AccountCircle,
   ExpandLess,
   ExpandMore,
   StarBorder,
 } from '@mui/icons-material';
-import { Collapse } from '@mui/material';
-import * as React from 'react';
+import {
+  Badge,
+  Collapse,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from '@mui/material';
+import Button from '@mui/material/Button';
+import { signOut } from 'next-auth/react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -95,8 +111,10 @@ const Drawer = styled(MuiDrawer, {
 
 export default function AdminLayout({ children }) {
   const theme = useTheme();
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
+  const [openLogout, setOpenLogout] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -104,6 +122,14 @@ export default function AdminLayout({ children }) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   return (
@@ -123,18 +149,119 @@ export default function AdminLayout({ children }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Template
+          <Typography component="div" sx={{ flexGrow: 1 }}>
+            <NextLink href="/admin" passHref>
+              <Link color="inherit" variant="h6" underline="none">
+                Template
+              </Link>
+            </NextLink>
           </Typography>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 0 }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <Badge badgeContent={17} color="error">
+                <Notifications />
+              </Badge>
+            </IconButton>
+            <Tooltip title="Open settings">
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+                onClick={handleOpenUserMenu}
+              >
+                <AccountCircle />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <NextLink href="/admin/profile" passHref>
+                <Link color="inherit" underline="none">
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Profile</Typography>
+                  </MenuItem>
+                </Link>
+              </NextLink>
+              <NextLink href="/admin/account" passHref>
+                <Link color="inherit" underline="none">
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Account</Typography>
+                  </MenuItem>
+                </Link>
+              </NextLink>
+              <NextLink href="/admin/dashboard" passHref>
+                <Link color="inherit" underline="none">
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Dashboard</Typography>
+                  </MenuItem>
+                </Link>
+              </NextLink>
+              <MenuItem
+                onClick={() => {
+                  handleCloseUserMenu();
+                  setOpenLogout(true);
+                }}
+              >
+                <Typography color="error" textAlign="center">
+                  Logout
+                </Typography>
+              </MenuItem>
+            </Menu>
+            <Dialog
+              open={openLogout}
+              onClose={() => {
+                setOpenLogout(false);
+              }}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">Logout</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Are you sure Logout ?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() => {
+                    setOpenLogout(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {
+                    return signOut();
+                  }}
+                  autoFocus
+                  color="error"
+                >
+                  Logout
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
