@@ -1,5 +1,3 @@
-import AdminLayout from '#components/layouts/AdminLayout';
-
 export default function AdminPage() {
-  return <AdminLayout>hi</AdminLayout>;
+  return <div>hi</div>;
 }

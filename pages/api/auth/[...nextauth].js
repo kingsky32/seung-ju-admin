@@ -1,31 +1,19 @@
 import { initApolloClient } from '#graphql/apollo-client';
+import redis from '#libs/redis';
 import { gql } from '@apollo/client';
+import { UpstashRedisAdapter } from '@next-auth/upstash-redis-adapter';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-const cookiesPolicy =
-  process.env.NODE_ENV === 'development'
-    ? {
-        sessionToken: {
-          name: `_Secure_next-auth.session-token`,
-          options: {
-            httpOnly: true,
-            sameSite: 'None',
-            path: '/',
-            secure: true,
-          },
-        },
-      }
-    : {};
-
-const LoginMutation = gql`
+const LOGIN_MUTATION = gql`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       user {
         id
         email
         username
-        name
+        firstName
+        lastName
         nickname
         bio
         createdAt
@@ -36,6 +24,16 @@ const LoginMutation = gql`
 `;
 
 export default NextAuth({
+  adapter: UpstashRedisAdapter(redis, {
+    baseKeyPrefix: '',
+    accountKeyPrefix: 'user:account:',
+    accountByUserIdPrefix: 'user:account:by-user-id:',
+    emailKeyPrefix: 'user:email:',
+    sessionKeyPrefix: 'user:session:',
+    sessionByUserIdKeyPrefix: 'user:session:by-user-id:',
+    userKeyPrefix: 'user:',
+    verificationTokenKeyPrefix: 'user:token:',
+  }),
   secret: process.env.JWT_SECRET_KEY,
   session: { strategy: 'jwt' },
   providers: [
@@ -58,7 +56,7 @@ export default NextAuth({
         const apolloClient = initApolloClient();
         return apolloClient
           .mutate({
-            mutation: LoginMutation,
+            mutation: LOGIN_MUTATION,
             variables: {
               email: credentials.email,
               password: credentials.password,
@@ -85,6 +83,20 @@ export default NextAuth({
   debug: process.env.NODE_ENV === 'development',
   pages: {
     signIn: '/sign_in',
+    newUser: '/sign_up',
   },
-  cookies: cookiesPolicy,
+  cookies:
+    process.env.NODE_ENV === 'development'
+      ? {
+          sessionToken: {
+            name: `_Secure_next-auth.session-token`,
+            options: {
+              httpOnly: true,
+              sameSite: 'None',
+              path: '/',
+              secure: true,
+            },
+          },
+        }
+      : {},
 });

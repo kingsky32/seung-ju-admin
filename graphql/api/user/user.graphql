@@ -4,7 +4,8 @@ type User {
   id: ID!
   email: String
   username: String!
-  name: String!
+  firstName: String!
+  lastName: String!
   nickname: String!
   bio: String
   createdAt: Date!
@@ -15,7 +16,8 @@ type Me {
   id: ID!
   email: String
   username: String!
-  name: String!
+  firstName: String!
+  lastName: String!
   nickname: String!
   bio: String
   createdAt: Date!
