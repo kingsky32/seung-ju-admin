@@ -1,13 +1,18 @@
 scalar Date
 
+
 type User {
   id: ID!
+  firstName: String
+  lastName: String
+  nickname: String
+  username: String
   email: String
-  username: String!
-  firstName: String!
-  lastName: String!
-  nickname: String!
+  emailVerified: Date
+  password: String
   bio: String
+  image: String
+  roleId: String
   createdAt: Date!
   updatedAt: Date!
 }

@@ -9,10 +9,10 @@ export default withAuth(
     pages: {
       signIn: '/sign_in',
     },
-    callback: {
+    callbacks: {
       authorized: ({ token }) => {
-        console.log(token);
-        return true;
+        console.log('????', token);
+        return !!token;
       },
     },
   },

@@ -6,6 +6,5 @@ type Mutation {
     firstName: String!
     lastName: String!
     nickname: String!
-    bio: String
   ): User!
 }

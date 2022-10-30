@@ -221,9 +221,9 @@ export default function SignUp() {
           </LoadingButton>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <NextLink href="/sign_in" passHref>
-                <Link variant="body2">Already have an account? Sign in</Link>
-              </NextLink>
+              <Link component={NextLink} href="/sign_in" variant="body2">
+                Already have an account? Sign in
+              </Link>
             </Grid>
           </Grid>
         </Box>

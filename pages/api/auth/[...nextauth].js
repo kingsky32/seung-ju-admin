@@ -1,27 +1,8 @@
-import { initApolloClient } from '#graphql/apollo-client';
 import redis from '#libs/redis';
-import { gql } from '@apollo/client';
 import { UpstashRedisAdapter } from '@next-auth/upstash-redis-adapter';
+import bcrypt from 'bcrypt';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
-const LOGIN_MUTATION = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      user {
-        id
-        email
-        username
-        firstName
-        lastName
-        nickname
-        bio
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
 
 export default NextAuth({
   adapter: UpstashRedisAdapter(redis, {
@@ -34,6 +15,9 @@ export default NextAuth({
     userKeyPrefix: 'user:',
     verificationTokenKeyPrefix: 'user:token:',
   }),
+  jwt: {
+    maxAge: 60 * 60 * 24 * 30,
+  },
   secret: process.env.JWT_SECRET_KEY,
   session: { strategy: 'jwt' },
   providers: [
@@ -53,16 +37,18 @@ export default NextAuth({
         },
       },
       async authorize(credentials) {
-        const apolloClient = initApolloClient();
-        return apolloClient
-          .mutate({
-            mutation: LOGIN_MUTATION,
-            variables: {
-              email: credentials.email,
-              password: credentials.password,
-            },
-          })
-          .then(({ data }) => data.login.user);
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email,
+          },
+        });
+        if (!user) return null;
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password,
+        );
+        if (!isValid) return null;
+        return user;
       },
     }),
   ],
@@ -73,7 +59,7 @@ export default NextAuth({
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token, user }) {
       if (session?.user) {
         session.user.id = token.uid;
       }

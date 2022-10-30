@@ -75,14 +75,19 @@ export default function SignInPage({ csrfToken, providers }) {
           </Button>
           <Grid container>
             <Grid item xs>
-              <NextLink href="/forgot_password" passHref>
-                <Link variant="body2">Forgot password?</Link>
-              </NextLink>
+              <Link
+                component={NextLink}
+                href="/forgot_password"
+                passHref
+                variant="body2"
+              >
+                Forgot password?
+              </Link>
             </Grid>
             <Grid item>
-              <NextLink href="/sign_up" passHref>
-                <Link variant="body2">Don&apos;t have an account? Sign Up</Link>
-              </NextLink>
+              <Link component={NextLink} href="/sign_up" variant="body2">
+                Don&apos;t have an account? Sign Up
+              </Link>
             </Grid>
           </Grid>
         </Box>
