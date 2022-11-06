@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "#app/*": ["./app/*"],
       "#apis/*": ["./apis/*"],
       "#assets/*": ["./assets/*"],
       "#commons/*": ["./commons/*"],
@@ -14,6 +15,7 @@
       "#queries/*": ["./queries/*"],
       "#stores/*": ["./stores/*"],
       "#styles/*": ["./styles/*"],
+      "#types/*": ["./types/*"],
       "#utils/*": ["./utils/*"]
     }
   }

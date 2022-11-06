@@ -1,3 +1,5 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
@@ -11,6 +13,16 @@ const nextConfig = {
       loader: '@graphql-tools/webpack-loader',
     });
     return config;
+  },
+  experimental: {
+    appDir: true,
+    serverComponentsExternalPackages: ['prisma'],
+    fontLoaders: [
+      { loader: '@next/font/google', options: { subsets: ['roboto'] } },
+    ],
+  },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles')],
   },
 };
 

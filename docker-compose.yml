@@ -17,4 +17,6 @@ services:
       POSTGRES_DB: template
   redis:
     image: redis:alpine
-    command: redis-server --port 6379
+    restart: always
+    ports:
+      - '6379:6379'
