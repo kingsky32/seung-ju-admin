@@ -166,13 +166,7 @@ export default function AdminLayout({
           >
             <MenuIcon />
           </IconButton>
-          <Typography component="div" sx={{ flexGrow: 1 }}>
-            <NextLink href="/admin" passHref>
-              <Link color="inherit" variant="h6" underline="none">
-                Admin
-              </Link>
-            </NextLink>
-          </Typography>
+          <Box sx={{ flex: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 0 }}>
             <IconButton
               size="large"
@@ -213,27 +207,36 @@ export default function AdminLayout({
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <NextLink href="/admin/profile" passHref>
-                <Link color="inherit" underline="none">
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Profile</Typography>
-                  </MenuItem>
-                </Link>
-              </NextLink>
-              <NextLink href="/admin/account" passHref>
-                <Link color="inherit" underline="none">
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Account</Typography>
-                  </MenuItem>
-                </Link>
-              </NextLink>
-              <NextLink href="/admin/dashboard" passHref>
-                <Link color="inherit" underline="none">
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Dashboard</Typography>
-                  </MenuItem>
-                </Link>
-              </NextLink>
+              <Link
+                component={NextLink}
+                href="/profile"
+                color="inherit"
+                underline="none"
+              >
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
+              </Link>
+              <Link
+                component={NextLink}
+                href="/account"
+                color="inherit"
+                underline="none"
+              >
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Account</Typography>
+                </MenuItem>
+              </Link>
+              <Link
+                component={NextLink}
+                href="/dashboard"
+                color="inherit"
+                underline="none"
+              >
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Dashboard</Typography>
+                </MenuItem>
+              </Link>
               <MenuItem
                 onClick={() => {
                   handleCloseUserMenu();

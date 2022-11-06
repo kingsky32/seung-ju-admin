@@ -10,7 +10,7 @@ export async function createSchema(): Promise<GraphQLSchema> {
     path.join(process.cwd(), '/graphql/api/**/*.graphql'),
   );
   const resolversArray: any[] = await loadFiles(
-    path.join(process.cwd(), '/graphql/api/**/*.resolver.js'),
+    path.join(process.cwd(), '/graphql/api/**/*.resolver.ts'),
     {
       requireMethod: (data: string): any =>
         import(`./${path.relative(`${process.cwd()}/graphql`, data)}`),
