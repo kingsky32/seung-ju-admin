@@ -169,7 +169,7 @@ export default function AdminLayout({
           <Typography component="div" sx={{ flexGrow: 1 }}>
             <NextLink href="/admin" passHref>
               <Link color="inherit" variant="h6" underline="none">
-                Template
+                Admin
               </Link>
             </NextLink>
           </Typography>
